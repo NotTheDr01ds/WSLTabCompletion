@@ -70,64 +70,38 @@ Function Register-WSLArgumentCompleter {
                 return Get-WSLArgumentName $wordToComplete
             }
             '^e.*fv$' {
-                # If we're completing a value for a flag
+                # If we're completing a partial value for a flag
                 [String]$flag = $compTokens[-2]
                 return Get-WSLArgumentValue $flag $wordToComplete
             }
-            # If the first token 
-            '^ef$' {
-            }
-        # If the last token is a flag
-        '^e.*f$' {
-            switch -Regex ($wordToComplete) {
-                '^-{1,2}' {
-                    # If the token being completed starts with a hyphen
-                    # Then offer any matching flags or commands for completion
+            '^e.*f $' {
+                # If the last token is a flag followed by a space,
+                # then we need to check whether it has a value.  If
+                # so, complete the value.
+                [String]$flag = $compTokens[-1]
+                if ($flags[$flag].hasValue) {
+                    if ($flags[$flag].completionFunction) {
+                        & $flags[$flag].completionFunction $wordToComplete
+                    }
+                }
+                else {
+                    # Otherwise, offer possible flag completions.
+                    # Do not offer commands nor flags that have 
+                    # already been used.
+                    return "--abc"
                     $alreadyUsedFlags = $compTokens | Where-Object { $_ -match '^-{0,1}' }
                     $validFlags = $flags.Keys
                     $flags.Keys | ForEach-Object {
                     }
-                    return $validFlags -join " "
-                    return Get-WSLArgumentName $wordToComplete
-                }
-                '' {
-                    $flag = $compTokens[-1]
-                    return Get-WSLArgumentValue $flag $wordToComplete
                 }
             }
-        }
-<#             Default {
-                if ($commandString -eq "wslx") {
-                    # If there are no arguments yet (only "wsl" command typed)
-                    # Then offer all flags and commands for completion
-                    Get-WSLArgumentName ""
-
-                } elseif ($wordToComplete -match "^-{1,2}") {
-                    # If the token being completed starts with a hyphen
-                    # Then offer any matching flags or commands for completion
-                    Get-WSLArgumentName $wordToComplete 
-
-                } elseif ($wordToComplete -ne "") {
-                    # We've already checked for the word being a flag (starting with a dash)
-                    # So this must be intended as a value
-                    [String]$previousElement = $commandAst.CommandElements[-2].Extent.Text
-                    if ($previousElement -match "^-") {
-                        Get-WSLArgumentValue $previousElement $wordToComplete
-                    }
-
-                    #$argument = $commandAst.CommandElements[-2].Extent.Text >> $completionLogFile
-                } elseif ($commandString.Length -lt $cursorPosition) {
-                    if ($wordToComplete -eq "") {
-                        # If the cursor is at the end of the line with whitespace
-                        if ($commandAst.CommandElements[-1].Extent.Text -match "^-{1,2}\w") {
-                            # And the last token on the line is a flag/command
-                            $argumentName = $commandAst.CommandElements[-1].Extent.Text
-                            Get-WSLArgumentValue $argumentName ""
-                        }
-                    }
-                }
-
-            } #>
+            '^e.*fv ' {
+                # If we're ending in a value, then the next token
+                # should be a flag.  Note that we've already 
+                # processed commands at this point.
+                & Get-WSLArgumentName ""
+                # TODO - Remove commands and already used flags
+            }
         }
     }
     Register-ArgumentCompleter -CommandName "wsl" `

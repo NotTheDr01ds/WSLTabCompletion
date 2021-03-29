@@ -6,6 +6,7 @@ $flags = [ordered]@{}
 
 $flags['~'] = @{
     description = "~: Start in user's home directory"
+    hasValue = $false
 }
 $flags['--distribution'] = $flags['-d'] = @{
     description = "-d, --distribution <DistroName>: Run the specified distribution."
