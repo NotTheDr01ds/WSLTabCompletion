@@ -3,20 +3,35 @@
 function Get-WSLArgumentName {
     param(
         [String]$ArgumentNamePartial = "",
-        $FlagKeysToProcess = $null
+        [Switch]$OnlyFlags,
+        [Array]$Tokens
     )
 
-    if (!$FlagKeysToProcess) {
-        $FlagKeysToProcess = $flags.Keys
+    [Array]$validArguments = $flags.Keys | Where-Object { $_ -match $ArgumentNamePartial }
+    
+    if ($OnlyFlags.IsPresent) {
+        $validArguments = $validArguments | Where-Object { !$flags[$_].isCommand }
     }
 
-
-    $FlagKeysToProcess | Where-Object { $_ -like "$($argumentNamePartial)*" } | 
-        ForEach-Object { 
-            if (!$flags[$_].description) { $flags[$_].description = "Null"}
-            New-Object -Type System.Management.Automation.CompletionResult -ArgumentList $_,
-                $_,
-                "ParameterName",
-                $flags[$_].description
+    if ($Tokens) {
+        $usedFlags = $Tokens | Where-Object { $_ -match '^-{1,2}|~' }
+        $usedFlags = $usedFlags | ForEach-Object {
+            if ($flags[$_].synonyms) {
+                $flags[$_].synonyms
+            } else {
+                $_
+            }
         }
+        $validArguments = $validArguments | Where-Object {
+            $_ -notin $usedFlags
+        }
+    }
+
+    $validArguments | ForEach-Object { 
+        if (!$flags[$_].description) { $flags[$_].description = "Null"}
+        New-Object -Type System.Management.Automation.CompletionResult -ArgumentList $_,
+            $_,
+            "ParameterName",
+            $flags[$_].description
+    }
 }

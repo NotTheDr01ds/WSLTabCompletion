@@ -53,7 +53,7 @@ Function Register-WSLArgumentCompleter {
         switch -Regex ($compPattern) {
             # WSL-only, no arguments or values yet
             # Then offer any matching flags or commands for completion
-            '^e$' { Get-WSLArgumentName "" }
+            '^e $' { Get-WSLArgumentName }
 
             # Any command in the first position
             # Then only offer the completion function for
@@ -88,19 +88,21 @@ Function Register-WSLArgumentCompleter {
                     # Otherwise, offer possible flag completions.
                     # Do not offer commands nor flags that have 
                     # already been used.
-                    return "--abc"
-                    $alreadyUsedFlags = $compTokens | Where-Object { $_ -match '^-{0,1}' }
-                    $validFlags = $flags.Keys
-                    $flags.Keys | ForEach-Object {
-                    }
+                    & Get-WSLArgumentName -OnlyFlags -Tokens $compTokens -ArgumentNamePartial $wordToComplete
                 }
             }
             '^e.*fv ' {
                 # If we're ending in a value, then the next token
                 # should be a flag.  Note that we've already 
                 # processed commands at this point.
-                & Get-WSLArgumentName ""
+                & Get-WSLArgumentName -OnlyFlags -Tokens $compTokens
                 # TODO - Remove commands and already used flags
+            }
+            '^e.*p' {
+                & Get-WSLArgumentName `
+                  -OnlyFlags 
+                  -Tokens $compTokens `
+                  -ArgumentNamePartial $wordToComplete
             }
         }
     }

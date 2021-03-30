@@ -5,7 +5,7 @@ $Script:completionLogFile = "./comp.log"
 $flags = [ordered]@{}
 
 $flags['~'] = @{
-    description = "~: Start in user's home directory"
+    description = "~: Start in user's home directory. Must be the first argument after the 'wsl' command"
     hasValue = $false
 }
 $flags['--distribution'] = $flags['-d'] = @{
