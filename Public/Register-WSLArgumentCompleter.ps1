@@ -91,16 +91,15 @@ Function Register-WSLArgumentCompleter {
                     & Get-WSLArgumentName -OnlyFlags -Tokens $compTokens -ArgumentNamePartial $wordToComplete
                 }
             }
-            '^e.*fv ' {
+            '^e.*fv $' {
                 # If we're ending in a value, then the next token
                 # should be a flag.  Note that we've already 
                 # processed commands at this point.
                 & Get-WSLArgumentName -OnlyFlags -Tokens $compTokens
-                # TODO - Remove commands and already used flags
             }
-            '^e.*p' {
+            '^e.*p$' {
                 & Get-WSLArgumentName `
-                  -OnlyFlags 
+                  -OnlyFlags `
                   -Tokens $compTokens `
                   -ArgumentNamePartial $wordToComplete
             }

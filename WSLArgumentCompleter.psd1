@@ -12,7 +12,7 @@
 RootModule = 'WSLArgumentCompleter.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.3'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -30,7 +30,7 @@ Author = 'Doug Crozier'
 Copyright = '(c) Doug Crozier. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'Provides completion suggestions for wsl.exe (Windows Subsystem for Linux)'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
