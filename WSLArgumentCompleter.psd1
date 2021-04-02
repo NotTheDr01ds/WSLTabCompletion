@@ -12,7 +12,7 @@
 RootModule = 'WSLArgumentCompleter.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.3'
+ModuleVersion = '0.0.4'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -103,7 +103,7 @@ PrivateData = @{
         LicenseUri = 'https://www.gnu.org/licenses/gpl-3.0.en.html'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/NotTheDr01ds/WSLArgumentCompleter'
 
         # A URL to an icon representing this module.
         # IconUri = ''
