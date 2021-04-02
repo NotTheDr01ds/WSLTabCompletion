@@ -12,7 +12,6 @@ $flags['--distribution'] = $flags['-d'] = @{
     description = "-d, --distribution <DistroName>: Run the specified distribution."
     hasValue = $true
     completionFunction = { 
-        param($partial)
         completeDistroName $wordToComplete
     }
     synonyms = @( '-d', '--distribution')
@@ -28,7 +27,7 @@ $flags['--user'] = $flags['-u'] = @{
     hasValue = $true
     completionFunction = { 
         "root"
-        if ($env:defaultWSLUser) { $env:defaultWSLUser }
+        if ($env:DefaultWSLUser) { $env:DefaultWSLUser } else { $env:USERNAME }
     }
     synonyms = @( '-u', '--user')
 }
@@ -45,6 +44,38 @@ $flags['--cd'] = @{
 
 $flags['--list'] = $flags['-l'] = @{
     description = "Lists distributions: <-v/--verbose>, <-q/--quiet>, <--all>, <--running>"
+        completionFunction = {
+            $listFlags = [ordered]@{}
+            $listFlags['--verbose'] = $listFlags['-v'] = "-v/--verbose: Show detailed information about all distributions."
+            $listFlags['--quiet'] = $listFlags['-q'] = "-q/--quiet: Only show distribution names."
+            $listFlags['--running'] = "--running: List only distributions that are currently running."
+            $listFlags['--all'] = "--all: List all distributions, including distributions that are currently being installed or uninstalled."
+
+            $validFlagKeys = $listFlags.Keys
+            $usedFlagKeys = $compTokens | Select-Object -skip 2 | Where-Object { $_ -match '^-{1,2}'}
+
+            # If either --all or --running have already been used,
+            # then neither is valid as a completion suggestion
+            [Array]$mutuallyExclusiveFlags = @( "--all", "--running" )
+            $mutuallyExclusiveFlags | ForEach-Object {
+                if ($_ -in $usedFlagKeys) { $validFlagKeys = $validFlagKeys | Where-Object { $_ -notin $mutuallyExclusiveFlags}}
+            }
+            # If any of these mutually exclusive flags have already been used,
+            # then none of them are valid for completion
+            [Array]$mutuallyExclusiveFlags = @( "-v", "--verbose", "-q", "--quiet")
+            $mutuallyExclusiveFlags | ForEach-Object {
+                if ($_ -in $usedFlagKeys) { $validFlagKeys = $validFlagKeys | Where-Object { $_ -notin $mutuallyExclusiveFlags}}
+            }
+            # Match against the partially typed flag
+            $validFlagKeys = $validFlagKeys | Where-Object { $_ -match "^$wordToComplete" }
+            if ($validFlagKeys) {
+                return $validFlagKeys
+            } else {
+                # If we've exhausted all possible --list flags
+                # then don't offer any completion suggestions
+                return ""
+            }
+        }
 } 
 $flags['--export'] = @{
     description = "--export <Distro> <FileName.tar>: Exports the distribution to a tar file. The filename can be - for standard output."
@@ -67,7 +98,7 @@ $flags['--import'] = @{
             'evvvv' { }
             # Fourth argument can be --version 
             'ecvvv ' { "--version" }
-            'ecvvvp' { @("--version") | Where-Object { $_ -match $wordToComplete}}
+            'ecvvvp' { "--version" | Where-Object { $_ -match $wordToComplete}}
             # Fifth argument can be a version, assuming the previous flag is '--version'
             'ecvvvp ' { 
                 if ($compTokens[5] -eq '--version' ) { @(1,2) }
