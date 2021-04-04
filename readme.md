@@ -15,6 +15,10 @@ A PowerShell module which includes a .Net ArgumentCompleter for the native `wsl.
 * Falls back to offering the default PowerShell directory/file completion for flags where this makes sense.
 * Does not offer any completions when the input must be provided by the user (e.g. the name to provide a new instance when doing an `--import`)
 
+### Installation ###
+
+WSLArgumentCompleter is published in the [PowerShell Gallery]()
+
 ### Implementation notes ###
 
 * The `wsl.exe` command currently appears to output in a (likely [malformed](https://github.com/microsoft/WSL/issues/4456#issuecomment-526807466)) UTF16 character set.  I am using [this](https://github.com/microsoft/WSL/issues/4607#issuecomment-717876058) incredibly helpful workaround by falloutphil.  However, I have not tested this on other locales.  Please file an issue if you run into any problem that appears to be due to character-encoding (or any other problem, of course).
