@@ -28,7 +28,7 @@ function completeDistroName {
         }
         $distro.displayName = $distro.displayName + " (WSL$($distro.version))"
         $distro.tooltip = $distro.displayName + " - $($distro.state)"
-        
+
         $distroFullArray += $distro
     }
     $distroArray = $distroFullArray
@@ -38,7 +38,7 @@ function completeDistroName {
     if ($only_running.IsPresent) {
         $distroArray = $distroArray | Where-Object { $_.state -eq "Running" }
     }
-    $distroArray | ForEach-Object { 
+    $distroArray | ForEach-Object {
         New-Object -Type System.Management.Automation.CompletionResult -ArgumentList $_.name,
             $_.displayName,
             "ParameterValue",

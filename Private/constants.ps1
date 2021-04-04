@@ -11,7 +11,7 @@ $flags['~'] = @{
 $flags['--distribution'] = $flags['-d'] = @{
     description = "-d, --distribution <DistroName>: Run the specified distribution."
     hasValue = $true
-    completionFunction = { 
+    completionFunction = {
         completeDistroName $wordToComplete
     }
     synonyms = @( '-d', '--distribution')
@@ -25,7 +25,7 @@ $flags['--exec'] = $flags['-e'] = @{
 $flags['--user'] = $flags['-u'] = @{
     description = "-u, --user <UserName>: Run as the specified Linux user."
     hasValue = $true
-    completionFunction = { 
+    completionFunction = {
         "root"
         if ($env:DefaultWSLUser) { $env:DefaultWSLUser } else { $env:USERNAME }
     }
@@ -34,11 +34,11 @@ $flags['--user'] = $flags['-u'] = @{
 $flags['--cd'] = @{
     description = "--cd <WindowsPath>: Start in the specified Windows-based directory.  Use \\wsl$\<DistroName> to start in a WSL directory."
     hasValue = $true
-    completionFunction = { } 
+    completionFunction = { }
 }
 
 # Commands below this line
-# Only one "command" may be present per wsl invocation.  
+# Only one "command" may be present per wsl invocation.
 # Making this distinction to potentially add logic
 # limiting completions on commands
 
@@ -76,10 +76,10 @@ $flags['--list'] = $flags['-l'] = @{
                 return ""
             }
         }
-} 
+}
 $flags['--export'] = @{
     description = "--export <Distro> <FileName.tar>: Exports the distribution to a tar file. The filename can be - for standard output."
-    completionFunction = { 
+    completionFunction = {
         completeDistroName $wordToComplete
     }
 }
@@ -96,11 +96,11 @@ $flags['--import'] = @{
             # Third argument must be a file
             'ecvv ' { }
             'evvvv' { }
-            # Fourth argument can be --version 
+            # Fourth argument can be --version
             'ecvvv ' { "--version" }
             'ecvvvp' { "--version" | Where-Object { $_ -match $wordToComplete}}
             # Fifth argument can be a version, assuming the previous flag is '--version'
-            'ecvvvp ' { 
+            'ecvvvp ' {
                 if ($compTokens[5] -eq '--version' ) { @(1,2) }
             }
         }
@@ -108,7 +108,7 @@ $flags['--import'] = @{
 }
 $flags['--set-default'] = $flags['-s'] = @{
     description = "--set-default, -s <Distro>: Sets the distribution as the default."
-    completionFunction = { 
+    completionFunction = {
         completeDistroName $wordToComplete
     }
 }
@@ -129,7 +129,7 @@ $flags['--set-version'] = @{
 }
 $flags['--terminate'] = @{
     description = "--terminate, -t <Distro>: Terminates the specified distribution."
-    completionFunction = { 
+    completionFunction = {
         completeDistroName $wordToComplete -only_running
     }
 }
@@ -146,7 +146,7 @@ $flags['--help'] = @{
     description = "Displays usage information."
 }
 @('--list', '-l', '--export', '--import', '-s', '--set-default-version',
- '--set-default', '--set-version', '--terminate', '--shutdown', 
- '--unregister','--help') | ForEach-Object { 
-     $flags[$_].isCommand = $true 
+ '--set-default', '--set-version', '--terminate', '--shutdown',
+ '--unregister','--help') | ForEach-Object {
+     $flags[$_].isCommand = $true
 }

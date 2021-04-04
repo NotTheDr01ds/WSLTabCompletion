@@ -6,7 +6,6 @@
         [String[]]$compTokens = $commandAst.CommandElements.ForEach({$_.Extent.Text})
         [String]$compPattern = Get-CompletionPattern -Tokens $compTokens -WordToComplete $wordToComplete
 
-
         <#$astDump = ($commandAst | Out-String) -split "`r`n" | Where-Object { $_ -ne "" }
 
         $indentedAstString = ($astDump | ForEach-Object { "    ${_}"}) -join "`r`n"
@@ -65,7 +64,7 @@
                 }
                 else {
                     # Otherwise, offer possible flag completions.
-                    # Do not offer commands nor flags that have 
+                    # Do not offer commands nor flags that have
                     # already been used.
                     return Get-WSLArgumentName -OnlyFlags -Tokens $compTokens -ArgumentNamePartial $wordToComplete
                 }
@@ -73,7 +72,7 @@
             }
             '^e.*fv $' {
                 # If we're ending in a value, then the next token
-                # should be a flag.  Note that we've already 
+                # should be a flag.  Note that we've already
                 # processed commands at this point.
                 return Get-WSLArgumentName -OnlyFlags -Tokens $compTokens
             }

@@ -1,5 +1,3 @@
-#$ModuleDirectory = Split-Path -Path (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent) -Parent
-#. ("$ModuleDirectory\private\flags.ps1")
 function Get-WSLArgumentName {
     param(
         [String]$ArgumentNamePartial = "",
@@ -8,7 +6,7 @@ function Get-WSLArgumentName {
     )
 
     [Array]$validArguments = $flags.Keys | Where-Object { $_ -match $ArgumentNamePartial }
-    
+
     if ($OnlyFlags.IsPresent) {
         $validArguments = $validArguments | Where-Object { !$flags[$_].isCommand }
     }
@@ -27,7 +25,7 @@ function Get-WSLArgumentName {
         }
     }
 
-    $validArguments | ForEach-Object { 
+    $validArguments | ForEach-Object {
         if (!$flags[$_].description) { $flags[$_].description = "Null"}
         New-Object -Type System.Management.Automation.CompletionResult -ArgumentList $_,
             $_,

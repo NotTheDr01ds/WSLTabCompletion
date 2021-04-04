@@ -1,7 +1,7 @@
 function Get-CompletionPattern {
     [OutputType([String])]
     Param (
-        [Array]$Tokens, 
+        [Array]$Tokens,
         [String]$WordToComplete
     )
 
