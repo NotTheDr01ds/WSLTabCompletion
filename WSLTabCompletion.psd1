@@ -9,10 +9,10 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'WSLArgumentCompleter.psm1'
+RootModule = 'WSLTabCompletion.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.8'
+ModuleVersion = '0.0.9'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -103,7 +103,7 @@ PrivateData = @{
         LicenseUri = 'https://www.gnu.org/licenses/gpl-3.0.en.html'
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/NotTheDr01ds/WSLArgumentCompleter'
+        ProjectUri = 'https://github.com/NotTheDr01ds/WSLTabCompletion'
 
         # A URL to an icon representing this module.
         # IconUri = ''
@@ -131,4 +131,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
