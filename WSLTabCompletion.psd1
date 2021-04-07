@@ -12,22 +12,22 @@
 RootModule = 'WSLTabCompletion.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.9'
+ModuleVersion = '0.8.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
 
 # ID used to uniquely identify this module
-GUID = '27345a11-aad6-483f-a821-16ce3d41def1'
+GUID = 'eec7da28-d09e-4e89-bd6e-6a691f59f738'
 
 # Author of this module
-Author = 'Doug Crozier'
+Author = 'Douglas Crozier'
 
 # Company or vendor of this module
 #CompanyName = 'Unknown'
 
 # Copyright statement for this module
-Copyright = '(c) Doug Crozier. All rights reserved.'
+Copyright = '(c) Douglas Crozier. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Provides completion suggestions for wsl.exe (Windows Subsystem for Linux)'

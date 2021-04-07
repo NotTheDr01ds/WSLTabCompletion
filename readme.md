@@ -1,6 +1,12 @@
-# WSLArgumentCompleter
+# WSLTabCompletion
 
 A PowerShell module which includes a .Net ArgumentCompleter for the native `wsl.exe` command, used to launch and manage the Windows Subsystem for Linux.
+
+# Limitations
+
+Best results under [PowerShell Core](https://github.com/PowerShell/PowerShell).
+
+Windows PowerShell (the version installed with Windows by default) does not offer completions for arguments starting with `-`.  This makes the feature fairly limited there.  Since Windows PowerShell is deprecated, Microsoft has no plans to fix this. 
 
 ### Features ###
 
@@ -17,7 +23,25 @@ A PowerShell module which includes a .Net ArgumentCompleter for the native `wsl.
 
 ### Installation ###
 
-WSLArgumentCompleter is published in the [PowerShell Gallery]()
+WSLTabCompletion is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/WSLTabCompletion), although it is unlisted while in Preview.  To install:
+
+```
+Install-Module -Name WSLTabCompletion -RequiredVersion 0.8.0
+```
+
+Once installed, test it in a single PowerShell session with:
+
+```
+Import-Module WSLTabCompletion
+```
+
+Type `wsl ` and then hit <kbd>Tab</kbd> or <kdb>Ctrl</kbd>+<kbd>Space</kbd> to see available completions.  Try completing `wsl -d ` to get a list of installed WSL instances.
+
+Once you have tested it, add the above `Import-Module` line to your PowerShell Core profile (`code $PROFILE` or `notepad $PROFILE`) so that it is available in all instances.
+
+### License ###
+
+This module is provided under the terms of the GPLv3.  You can freely use it on any system you control; you may freely distribute it under the terms of the GPLv3.  To distribute under other terms, please contact the author by filing an [issue](https://github.com/NotTheDr01ds/WSLTabCompletion/issues).
 
 ### Implementation notes ###
 
