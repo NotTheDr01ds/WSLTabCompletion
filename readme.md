@@ -2,12 +2,6 @@
 
 A PowerShell module which includes a .Net ArgumentCompleter for the native `wsl.exe` command, used to launch and manage the Windows Subsystem for Linux.
 
-# Limitations
-
-Best results under [PowerShell Core](https://github.com/PowerShell/PowerShell).
-
-Windows PowerShell (the version installed with Windows by default) does not offer completions for arguments starting with `-`.  This makes the feature fairly limited there.  Since Windows PowerShell is deprecated, Microsoft has no plans to fix this. 
-
 ### Features ###
 
 * Completes all commands and flags for the current (non-Insider) release of WSL on Windows Build 19042
@@ -20,6 +14,14 @@ Windows PowerShell (the version installed with Windows by default) does not offe
 * Attempts to only offer completions that make sense given the current command line so far, but there will be corner cases it cannot catch without building a full AST parser for the `wsl` command, which I have no plans to do ;-).
 * Falls back to offering the default PowerShell directory/file completion for flags where this makes sense.
 * Does not offer any completions when the input must be provided by the user (e.g. the name to provide a new instance when doing an `--import`)
+
+# Limitations
+
+Best results under [PowerShell Core](https://github.com/PowerShell/PowerShell).
+
+Windows PowerShell (the version installed with Windows by default) does not offer completions for arguments starting with `-`.  This makes the feature fairly limited there.  Since Windows PowerShell is deprecated, Microsoft has no plans to fix this. 
+
+At present, I have not tested older versions of PowerShell Core to see how far back it works.  Please let me know if you find an issue on an older PowerShell Core version.  I probably won't fix it, but I can at least update the manifest to suggest a later release.
 
 ### Installation ###
 
@@ -35,7 +37,7 @@ Once installed, test it in a single PowerShell session with:
 Import-Module WSLTabCompletion
 ```
 
-Type `wsl ` and then hit <kbd>Tab</kbd> or <kdb>Ctrl</kbd>+<kbd>Space</kbd> to see available completions.  Try completing `wsl -d ` to get a list of installed WSL instances.
+Type `wsl ` (including a trailing space) and then hit <kbd>Tab</kbd> or <kbd>Ctrl</kbd>+<kbd>Space</kbd> to see available completions.  Try completing `wsl -d ` (including the trailing space) to get a list of installed WSL instances.
 
 Once you have tested it, add the above `Import-Module` line to your PowerShell Core profile (`code $PROFILE` or `notepad $PROFILE`) so that it is available in all instances.
 
