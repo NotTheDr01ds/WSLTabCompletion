@@ -19,7 +19,7 @@ A PowerShell module which includes a .Net ArgumentCompleter for the native `wsl.
 
 Best results under [PowerShell Core](https://github.com/PowerShell/PowerShell).
 
-Windows PowerShell (the version installed with Windows by default) does not offer completions for arguments starting with `-`.  This makes the feature fairly limited there.  Since Windows PowerShell is deprecated, Microsoft has no plans to fix this. 
+Windows PowerShell (the version installed with Windows by default) does not offer completions for arguments starting with `-`.  This makes the feature fairly limited there.  Since Windows PowerShell is end-of-life, Microsoft has no plans to fix this. 
 
 At present, I have not tested older versions of PowerShell Core to see how far back it works.  Please let me know if you find an issue on an older PowerShell Core version.  I probably won't fix it, but I can at least update the manifest to suggest a later release.
 
