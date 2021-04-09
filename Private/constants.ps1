@@ -26,8 +26,10 @@ $flags['--user'] = $flags['-u'] = @{
     description = "-u, --user <UserName>: Run as the specified Linux user."
     hasValue = $true
     completionFunction = {
-        "root"
-        if ($env:DefaultWSLUser) { $env:DefaultWSLUser } else { $env:USERNAME }
+        [Array]$userCompletions = @()
+        $userCompletions += "root"
+        $userCompletions += if ($env:DefaultWSLUser) { $env:DefaultWSLUser } else { $env:USERNAME }
+        return $userCompletions | Where-Object { $_ -match "^$wordToComplete" }
     }
     synonyms = @( '-u', '--user')
 }
