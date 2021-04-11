@@ -39,7 +39,22 @@ Import-Module WSLTabCompletion
 
 Type `wsl ` (including a trailing space) and then hit <kbd>Tab</kbd> or <kbd>Ctrl</kbd>+<kbd>Space</kbd> to see available completions.  Try completing `wsl -d ` (including the trailing space) to get a list of installed WSL instances.
 
-Once you have tested it, add the above `Import-Module` line to your PowerShell Core profile (`code $PROFILE` or `notepad $PROFILE`) so that it is available in all instances.
+Once you have tested it, add the above `Import-Module` line to your PowerShell Core profile so that it is available in all PowerShell Core instances.
+
+`code $PROFILE` or `notepad $PROFILE`:
+```
+# Recommended for Completion system to provide tooltips
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+# Recommended for PowerShell to exit with Ctrl+D (like Linux shells)
+Set-PSReadlineKeyHandler -Key ctrl+d -Function DeleteCharOrExit
+
+#Required for WSLTabCompletion
+Import-Module WSLTabCompletion
+
+# Nice-to-have for history search
+Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+```
 
 ### License ###
 
