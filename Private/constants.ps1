@@ -129,7 +129,7 @@ $flags['--set-version'] = @{
         }
     }
 }
-$flags['--terminate'] = @{
+$flags['--terminate'] = $flags['-t'] = @{
     description = "--terminate, -t <Distro>: Terminates the specified distribution."
     completionFunction = {
         completeDistroName $wordToComplete -only_running
