@@ -148,7 +148,7 @@ $flags['--help'] = @{
     description = "Displays usage information."
 }
 @('--list', '-l', '--export', '--import', '-s', '--set-default-version',
- '--set-default', '--set-version', '--terminate', '--shutdown',
+ '--set-default', '--set-version', '--terminate', '-t', '--shutdown',
  '--unregister','--help') | ForEach-Object {
      $flags[$_].isCommand = $true
 }
