@@ -51,7 +51,7 @@
             '^ec.*$' {
                 [String]$commandFlag = $compTokens[1]
                 if ($flags[$commandFlag].completionFunction) {
-                    return (& $flags[$commandFlag].completionFunction $wordToComplete)
+                    return (& $flags[$commandFlag].completionFunction)
                 } else {
                     return
                 }

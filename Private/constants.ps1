@@ -52,9 +52,16 @@ $flags['--list'] = $flags['-l'] = @{
             $listFlags['--quiet'] = $listFlags['-q'] = "-q/--quiet: Only show distribution names."
             $listFlags['--running'] = "--running: List only distributions that are currently running."
             $listFlags['--all'] = "--all: List all distributions, including distributions that are currently being installed or uninstalled."
+            $listFlags['--online'] = $listFlags['-o'] = "Displays a list of available distributions for install with 'wsl.exe --install'."
 
+            # Start with all possible --list flags
             $validFlagKeys = $listFlags.Keys
-            $usedFlagKeys = $compTokens | Select-Object -skip 2 | Where-Object { $_ -match '^-{1,2}'}
+            
+            # Get the flags that have already been used
+            $usedFlagKeys = $compTokens `
+                # Skip the first two tokens, which are the command and the --list flag
+                | Select-Object -skip 2 `
+                | Where-Object { $_ -ne $wordToComplete }
 
             # If either --all or --running have already been used,
             # then neither is valid as a completion suggestion
@@ -64,14 +71,31 @@ $flags['--list'] = $flags['-l'] = @{
             }
             # If any of these mutually exclusive flags have already been used,
             # then none of them are valid for completion
-            [Array]$mutuallyExclusiveFlags = @( "-v", "--verbose", "-q", "--quiet")
+            [Array]$mutuallyExclusiveFlags = @( "-v", "--verbose", "-q", "--quiet", "--online", "-o")
             $mutuallyExclusiveFlags | ForEach-Object {
                 if ($_ -in $usedFlagKeys) { $validFlagKeys = $validFlagKeys | Where-Object { $_ -notin $mutuallyExclusiveFlags}}
             }
+            
+            # If --online has been used, then no other --list flags are valid
+            @( "--online", "-o") | ForEach-Object {
+                if ($_ -in $usedFlagKeys) { $validFlagKeys = @() }
+            }
+            
+            # If any other flags have been used, then --online is not valid
+            if ($usedFlagKeys.Length -gt 0) {
+                $validFlagKeys = $validFlagKeys | Where-Object { $_ -notin @( "--online", "-o") }
+            }
+
             # Match against the partially typed flag
             $validFlagKeys = $validFlagKeys | Where-Object { $_ -match "^$wordToComplete" }
             if ($validFlagKeys) {
-                return $validFlagKeys
+                #return $validFlagKeys
+                $validFlagKeys | ForEach-Object {
+                    New-Object -Type System.Management.Automation.CompletionResult -ArgumentList $_,
+                        $_,
+                        "ParameterName",
+                        $listFlags[$_]
+                }
             } else {
                 # If we've exhausted all possible --list flags
                 # then don't offer any completion suggestions
