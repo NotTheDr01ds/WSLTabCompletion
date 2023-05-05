@@ -39,6 +39,10 @@ $flags['--cd'] = @{
     completionFunction = { }
 }
 
+$flags['--system'] = @{
+    description = "Launches a shell for the WSLg system distribution."
+}
+
 # Commands below this line
 # Only one "command" may be present per wsl invocation.
 # Making this distinction to potentially add logic
@@ -171,8 +175,42 @@ $flags['--unregister'] = @{
 $flags['--help'] = @{
     description = "Displays usage information."
 }
+
+$flags['--install'] = @{
+    description = "Installs WSL or additional distributions."
+}
+
+$flags['--debug-shell'] = @{
+    description = "Open a WSL2 debug shell in the root namespace for diagnostics purposes."
+}
+
+$flags['--event-viewer'] = @{
+    description = "Opens the application view of the Windows Event Viewer."
+}
+
+$flags['--release-notes'] = @{
+    description = "Opens a web browser to view the WSL release notes page."
+}
+
+$flags['--version'] = $flags['-v'] = @{
+    description = "Display version information for WSL and related components."
+}
+
+$flags['--mount'] = @{
+    description = "Attaches and mounts a physical or virtual disk in all WSL 2 distributions."
+}
+
+$flags['--status'] = @{
+    description = "Show the status of Windows Subsystem for Linux."
+}
+
+$flags['--update'] = @{
+    description = "Update the Windows Subsystem for Linux package."
+}
+
 @('--list', '-l', '--export', '--import', '-s', '--set-default-version',
  '--set-default', '--set-version', '--terminate', '-t', '--shutdown',
- '--unregister','--help') | ForEach-Object {
+ '--unregister','--help', '--install', '--debug-shell', '--version', '-v',
+ '--release-notes', '--event-viewer', '--mount', '--status', '--update') | ForEach-Object {
      $flags[$_].isCommand = $true
 }
