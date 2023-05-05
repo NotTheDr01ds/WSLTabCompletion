@@ -4,7 +4,7 @@ A PowerShell module which includes a .Net ArgumentCompleter for the native `wsl.
 
 ### Features ###
 
-* Completes all commands and flags for the current (non-Insider) release of WSL on Windows Build 19042
+* Completes all commands and (most) flags for the current release of WSL (1.2.5)
 * Provides tooltip help (at the bottom of the screen) for the offered completions.
 * Completes all installed distribution names for the `-d/--distribution`, `--export`, `--terminate`, `--set-default`, `--set-version`, and `--unregister` options.
 * Provides additional information on the distributions being offered for completion in the tooltip - Whether or not the instance is running or stopped and the WSL version of the instance.  Also tags the default distribution.
