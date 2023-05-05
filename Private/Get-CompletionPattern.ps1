@@ -25,6 +25,8 @@ function Get-CompletionPattern {
         }
     }
     if (!$WordToComplete) {
+        # There is a space after the last token
+        # Otherwise, we should be completing the last token
         $compPattern += " "
     }
     return $compPattern

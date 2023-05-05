@@ -1,12 +1,26 @@
     $Script:argCompFunction = {
         param($wordToComplete, $commandAst, $cursorPosition)
-
+<# 
+        [String]$completionLogFile = "$env:LOCALAPPDATA\WSLTabCompletion\completion.log"
+        New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\WSLTabCompletion" -ErrorAction SilentlyContinue | Out-Null
+#>
+        # Adjust the cursor position in case there is extra whitespace
+        # at the beginning of the command
         [int]$cursorPosition = $cursorPosition - $commandAst.Extent.StartOffset
+
+        # The command string is the entire command line, minus leading whitespace
         [String]$commandString = $commandAst.Extent.ToString()
+        # Array of each token on the command line
         [String[]]$compTokens = $commandAst.CommandElements.ForEach({$_.Extent.Text})
+        # Get the completion pattern string for the current commandline
+        # See Get-CompletionPattern for the format
         [String]$compPattern = Get-CompletionPattern -Tokens $compTokens -WordToComplete $wordToComplete
 
-        <#$astDump = ($commandAst | Out-String) -split "`r`n" | Where-Object { $_ -ne "" }
+<#
+        [String]$completionLogFile = "$env:LOCALAPPDATA\WSLTabCompletion\completion.log"
+        New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\WSLTabCompletion" -ErrorAction SilentlyContinue | Out-Null
+
+        $astDump = ($commandAst | Out-String) -split "`r`n" | Where-Object { $_ -ne "" }
 
         $indentedAstString = ($astDump | ForEach-Object { "    ${_}"}) -join "`r`n"
         (
@@ -19,11 +33,11 @@
             $indentedAstString,
             "commandString: '${commandString}'",
             ""
-        ) -join "`r`n" | Out-File -Append -FilePath $completionLogFile#>
+        ) -join "`r`n" | Out-File -Append -FilePath $completionLogFile
+#>
 
         if ($cursorPosition -lt $commandString.Length) {
             # Don't offer completions if the cursor isn't at the end of the line
-            # (for now)
             return
         }
         switch -Regex ($compPattern) {

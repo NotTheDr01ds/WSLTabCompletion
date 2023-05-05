@@ -13,5 +13,5 @@ Foreach($import in @($Public + $Private))
     }
 }
 
-Export-ModuleMember Register-WSLArgumentCompleter
+#Export-ModuleMember Register-WSLArgumentCompleter
 Register-WSLArgumentCompleter
