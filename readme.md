@@ -25,10 +25,10 @@ At present, I have not tested older versions of PowerShell Core to see how far b
 
 ### Installation ###
 
-WSLTabCompletion is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/WSLTabCompletion), although it is unlisted while in Preview.  To install:
+WSLTabCompletion is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/WSLTabCompletion).  To install:
 
 ```
-Install-Module -Name WSLTabCompletion -RequiredVersion 0.8.0
+Install-Module -Name WSLTabCompletion
 ```
 
 Once installed, test it in a single PowerShell session with:
@@ -55,6 +55,11 @@ Import-Module WSLTabCompletion
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 ```
+
+Update with:
+
+```
+Update-Module WSLTabCompletion
 
 ### License ###
 
